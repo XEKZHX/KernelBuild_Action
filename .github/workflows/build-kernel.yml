@@ -18,6 +18,7 @@ jobs:
         CONFIG_LIST=(
             KERNEL_SOURCE
             PRIVATE
+            PRIVATE_SSH
             KERNEL_SOURCE_BRANCH
             PRODUCT_NAME
             KERNEL_IMAGE_NAME
@@ -54,8 +55,8 @@ jobs:
         ssh-keygen -t rsa -C "test@test.com"  -f ~/.ssh/id_rsa -N ""
         ls ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa*
-        echo "Public Key:"
-        echo "$(cat ~/.ssh/id_rsa.pub)"
+        echo "Public Key: $(cat ~/.ssh/id_rsa.pub)"
+        echo "请在下载内核前前往库的设置添加密钥"
         
     - name: Remove unused packages
       if: env.REMOVE_UNUSED_PACKAGES == 'true'
