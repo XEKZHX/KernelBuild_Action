@@ -59,7 +59,16 @@ jobs:
         large-packages: true
         docker-images: true
         swap-storage: false
-
+    - name: set ssh
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keygen -t rsa -C "test@test.com"
+        chmod 600 ~/.ssh/id_rsa*
+        CONTENT=$(cat ~/.ssh/id_rsa.pub)
+        echo "PUBLIC_KEY=$CONTENT" >> $GITHUB_ENV
+        echo "Public Key:"
+        echo "${{ env.PUBLIC_KEY }}"
+        sleep 60s
     - name: Set swap to 10G
       uses: pierotofy/set-swap-space@master
       with:
@@ -105,7 +114,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         git clone https://android.googlesource.com/platform/system/tools/mkbootimg tools -b master-kernel-build-2022 --depth=1
-
+    
     - name: Download kernel source
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
@@ -201,7 +210,7 @@ jobs:
             cp android-kernel/out/arch/${{ env.ARCH }}/boot/dtbo.img AnyKernel3/
         fi
         rm -rf AnyKernel3/.git* AnyKernel3/README.md
-
+  
     - name: Make Custom-Anykernel3
       if: env.CHECK_FILE_IS_OK == 'true' && env.USE_CUSTOM_ANYKERNEL3 == 'true'
       run: |
