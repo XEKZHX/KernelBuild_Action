@@ -19,6 +19,7 @@ jobs:
             KERNEL_SOURCE
             KERNEL_SOURCE_BRANCH
             KERNEL_IMAGE_NAME
+            PRODUCT_NAME
             ARCH
             ADD_LOCALVERSION_TO_FILENAME
             EXTRA_CMDS
@@ -26,7 +27,6 @@ jobs:
             CUSTOM_CLANG_SOURCE
             CUSTOM_CLANG_BRANCH
             CLANG_BRANCH
-            PRODUCT_NAME
             CLANG_VERSION
             ENABLE_GCC_ARM64
             ENABLE_GCC_ARM32
