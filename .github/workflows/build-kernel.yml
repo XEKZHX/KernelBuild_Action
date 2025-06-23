@@ -23,7 +23,6 @@ jobs:
             ARCH
             ADD_LOCALVERSION_TO_FILENAME
             EXTRA_CMDS
-            USE_CUSTOM_CLANG
             CUSTOM_CLANG_SOURCE
             CUSTOM_CLANG_BRANCH
             CLANG_BRANCH
