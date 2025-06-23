@@ -55,9 +55,8 @@ jobs:
         ls ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa*
         CONTENT=$(cat ~/.ssh/id_rsa.pub)
-        echo "PUBLIC_KEY=$CONTENT" >> $GITHUB_ENV
         echo "Public Key:"
-        echo "${{ env.PUBLIC_KEY }}"
+        echo "${{ CONTENT }}"
         
     - name: Remove unused packages
       if: env.REMOVE_UNUSED_PACKAGES == 'true'
