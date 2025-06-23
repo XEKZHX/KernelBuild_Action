@@ -17,6 +17,7 @@ jobs:
         CONFIG_ENV=$(grep -w "CONFIG_ENV" config.env | head -n 1 | cut -d "=" -f 2)
         CONFIG_LIST=(
             KERNEL_SOURCE
+            PRIVATE
             KERNEL_SOURCE_BRANCH
             PRODUCT_NAME
             KERNEL_IMAGE_NAME
@@ -108,6 +109,13 @@ jobs:
     - name: Download kernel source
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
+
+        if [[ ${{ env.PRIVATE }} == 'true' ]]; then
+          ssh-keygen -t rsa -C "test@test.com" -o StrictHostKeyChecking=no”
+          cat ~/.ssh/id_rsa.pub
+          echo "请前往私有库添加密钥!60S等待"
+          sleep 60s
+          git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth
         git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
         if [[ ${{ env.ADD_LOCALVERSION_TO_FILENAME }} == 'true' ]]; then
           echo "LOCALVERSION=$(cat android-kernel/localversion)" >> $GITHUB_ENV
