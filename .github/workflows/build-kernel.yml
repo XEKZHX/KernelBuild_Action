@@ -85,16 +85,26 @@ jobs:
     - name: Download Custom-Clang
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
-        if [[ ${{ env.CUSTOM_CLANG_SOURCE }} =~ git ]]; then
-            if [[ ${{ env.CUSTOM_CLANG_SOURCE }} == *'.tar.gz' ]]; then
-                wget -O clang.tar.gz ${{ env.CUSTOM_CLANG_SOURCE }}
+        echo "CUSTOM_CLANG_SOURCE: ${{ env.CUSTOM_CLANG_SOURCE }}"
+        echo "CUSTOM_CLANG_BRANCH: ${{ env.CUSTOM_CLANG_BRANCH }}"
+        
+        # 检查 CUSTOM_CLANG_SOURCE 是否包含 'git'
+        if [[ "${{ env.CUSTOM_CLANG_SOURCE }}" =~ git ]]; then
+            echo "CUSTOM_CLANG_SOURCE contains 'git', proceeding with git operations."
+            
+            # 检查是否是 .tar.gz 文件
+            if [[ "${{ env.CUSTOM_CLANG_SOURCE }}" == *.tar.gz ]]; then
+                echo "Detected .tar.gz file, downloading and extracting..."
+                wget -O clang.tar.gz "${{ env.CUSTOM_CLANG_SOURCE }}"
                 mkdir clang-aosp
                 tar -C clang-aosp/ -zxvf clang.tar.gz
             else
-                git clone ${{ env.CUSTOM_CLANG_SOURCE }} -b ${{ env.CUSTOM_CLANG_BRANCH }} clang-aosp --depth=1
+                echo "Detected git repository, cloning..."
+                git clone "${{ env.CUSTOM_CLANG_SOURCE }}" -b "${{ env.CUSTOM_CLANG_BRANCH }}" clang-aosp --depth=1
             fi
         else
-            wget -O clang.zip ${{ env.CUSTOM_CLANG_SOURCE }}
+            echo "CUSTOM_CLANG_SOURCE does not contain 'git', proceeding with ZIP download."
+            wget -O clang.zip "${{ env.CUSTOM_CLANG_SOURCE }}"
             mkdir clang-aosp
             unzip clang.zip -d clang-aosp/
         fi
