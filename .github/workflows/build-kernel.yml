@@ -121,6 +121,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         if [[ ${{ env.PRIVATE }} == 'true' ]]; then
+          echo ${{ env.PRIVATE_SSH }}
           git clone --recursive ${{ env.PRIVATE_SSH }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
         else
           git clone --recursive https://${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
