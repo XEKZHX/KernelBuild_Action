@@ -54,9 +54,8 @@ jobs:
         ssh-keygen -t rsa -C "test@test.com"  -f ~/.ssh/id_rsa -N ""
         ls ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa*
-        CONTENT=$(cat ~/.ssh/id_rsa.pub)
         echo "Public Key:"
-        echo "${{ CONTENT }}"
+        echo "$(cat ~/.ssh/id_rsa.pub)"
         
     - name: Remove unused packages
       if: env.REMOVE_UNUSED_PACKAGES == 'true'
