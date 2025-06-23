@@ -18,15 +18,13 @@ jobs:
         CONFIG_LIST=(
             KERNEL_SOURCE
             KERNEL_SOURCE_BRANCH
-            KERNEL_IMAGE_NAME
             PRODUCT_NAME
+            KERNEL_IMAGE_NAME
             ARCH
             ADD_LOCALVERSION_TO_FILENAME
             EXTRA_CMDS
             CUSTOM_CLANG_SOURCE
             CUSTOM_CLANG_BRANCH
-            CLANG_BRANCH
-            CLANG_VERSION
             ENABLE_GCC_ARM64
             ENABLE_GCC_ARM32
             USE_CUSTOM_GCC_64
