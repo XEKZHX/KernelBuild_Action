@@ -48,6 +48,17 @@ jobs:
             fi
         done
 
+    - name: Set ssh
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keygen -t rsa -C "test@test.com"  -f ~/.ssh/id_rsa -N ""
+        ls ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa*
+        CONTENT=$(cat ~/.ssh/id_rsa.pub)
+        echo "PUBLIC_KEY=$CONTENT" >> $GITHUB_ENV
+        echo "Public Key:"
+        echo "${{ env.PUBLIC_KEY }}"
+        
     - name: Remove unused packages
       if: env.REMOVE_UNUSED_PACKAGES == 'true'
       uses: jlumbroso/free-disk-space@main
@@ -59,17 +70,8 @@ jobs:
         large-packages: true
         docker-images: true
         swap-storage: false
-    - name: set ssh
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keygen -t rsa -C "test@test.com"  -f ~/.ssh/id_rsa
-        ls ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa*
-        CONTENT=$(cat ~/.ssh/id_rsa.pub)
-        echo "PUBLIC_KEY=$CONTENT" >> $GITHUB_ENV
-        echo "Public Key:"
-        echo "${{ env.PUBLIC_KEY }}"
-        sleep 60s
+
+
     - name: Set swap to 10G
       uses: pierotofy/set-swap-space@master
       with:
