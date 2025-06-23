@@ -111,7 +111,9 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace
         if [[ ${{ env.PRIVATE }} == 'true' ]]; then
           git clone --recursive https://x-access-token:${{ secrets.GITHUB_TOKEN }}@${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
-        git clone --recursive https://${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
+        else
+          git clone --recursive https://${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
+        fi
         if [[ ${{ env.ADD_LOCALVERSION_TO_FILENAME }} == 'true' ]]; then
           echo "LOCALVERSION=$(cat android-kernel/localversion)" >> $GITHUB_ENV
         else
